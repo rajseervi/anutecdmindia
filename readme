@@ -1,0 +1,24 @@
+https://console.cloud.google.com/projectselector2/iam-admin/serviceaccounts?supportedpurview=project
+
+ENABLE GOOGLE SHEET
+
+https://console.cloud.google.com/apis/library/sheets.googleapis.com?project=anutecdmindia
+
+
+for sheet 
+sheets-service-account@anutecdmindia.iam.gserviceaccount.com
+GOOGLE_CLIENT_EMAIL=sheets-service-account@anutecdmindia.iam.gserviceaccount.com
+
+- Go to [Google Cloud Console → IAM & Admin → Service Accounts](https://console.cloud.google.com/iam-admin/serviceaccounts)
+
+- Select project `anutecdmindia`
+
+- Click __+ Create Service Account__
+
+- Name it `sheets-service-account`
+
+- Assign role: __Viewer__ (or no role — the key is enough for Sheets API)
+
+- Click __Done__, then click on the new account → __Keys__ → __Add Key__ → __Create New Key__ → __JSON__
+
+- Copy the `client_email` and `private_key` from the downloaded JSON into `.env.local`
