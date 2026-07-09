@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Image Gallery</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: sans-serif; background: #111; padding: 20px; }
+    h1 { color: #fff; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+    .card { background: #1a1a1a; border-radius: 8px; overflow: hidden; }
+    .card img { width: 100%; height: 250px; object-fit: cover; display: block; }
+    .card .name { color: #aaa; font-size: 12px; padding: 8px; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>📷 Product Images (19 total)</h1>
+  <div class="grid" id="grid"></div>
+  <script>
+    const files = [
+      "WhatsApp Image 2026-07-09 at 11.30.43 AM.jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.44 AM (1).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.44 AM.jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.45 AM (1).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.45 AM (2).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.45 AM.jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.46 AM.jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.47 AM (1).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.47 AM (2).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.47 AM (3).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.47 AM.jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.48 AM (1).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.48 AM (2).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.48 AM.jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.49 AM (1).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.49 AM (2).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.49 AM (3).jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.49 AM.jpeg",
+      "WhatsApp Image 2026-07-09 at 11.30.50 AM.jpeg",
+    ];
+    const grid = document.getElementById('grid');
+    files.forEach(f => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<img src="/img/${encodeURIComponent(f)}" loading="lazy" alt="${f}"><div class="name">${f}</div>`;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>

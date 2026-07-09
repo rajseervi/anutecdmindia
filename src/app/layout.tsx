@@ -21,11 +21,11 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.anutecdmindia.c
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Anutec — Premium Taps & Faucets Manufacturer in India | Bathroom Accessories",
-    template: "%s | Anutec",
+    default: "Anutec Taps — Premium Faucets Manufacturer in India | Diamond Marketing And Product Manufacturing",
+    template: "%s | Anutec Taps",
   },
   description:
-    "Anutec is a leading Indian manufacturer of high-quality taps, faucets, and bathroom accessories. Precision-engineered products combining elegant design with lasting durability. Explore our range today!",
+    "Diamond Marketing And Product Manufacturing produces Anutec Taps — premium bathroom faucets, kitchen taps, and accessories. Precision-engineered products combining elegant design with lasting durability. Explore our range today!",
   keywords: [
     "taps manufacturer India",
     "faucets manufacturer India",
@@ -119,13 +119,14 @@ export default function RootLayout({
             schema={{
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "Anutec",
+              name: "Diamond Marketing And Product Manufacturing",
+              alternateName: "Anutec Taps",
               image: `${siteUrl}/og-image.png`,
               url: siteUrl,
               telephone: "+91-0000000000",
               email: "info@anutec.in",
               description:
-                "Anutec is a leading Indian manufacturer of high-quality bathroom taps, faucets, and accessories — precision-engineered for lasting performance and elegant design.",
+                "Diamond Marketing And Product Manufacturing produces Anutec Taps — premium bathroom faucets, kitchen taps, and accessories combining precision engineering with elegant design for lasting performance.",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "123 Market Street, Suite 400",

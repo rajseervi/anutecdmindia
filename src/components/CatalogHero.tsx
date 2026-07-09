@@ -211,7 +211,7 @@ export default function CatalogHero({ companyName, phone }: CatalogHeroProps) {
                 className="text-sm sm:text-base md:text-lg text-slate-300/90 leading-relaxed max-w-xl text-balance"
                 style={isTouchDevice ? undefined : { transform: `translateY(${parallaxOffset * -0.08}px)` }}
               >
-                {companyName} manufactures high-quality bathroom faucets, kitchen taps, shower mixers,
+                Anutec Taps manufactures high-quality bathroom faucets, kitchen taps, shower mixers,
                 and accessories — combining precision engineering with elegant design. Built to last,
                 designed to impress.
               </p>

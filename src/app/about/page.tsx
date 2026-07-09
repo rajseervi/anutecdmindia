@@ -288,7 +288,7 @@ export default function AboutPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-60" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-400" />
               </span>
-              About {company.name}
+              About Anutec Taps
             </div>
 
             <h1

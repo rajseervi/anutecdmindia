@@ -10,12 +10,12 @@ export interface CompanyProfile {
 }
 
 export const DEFAULT_COMPANY_PROFILE: CompanyProfile = {
-  name: 'Anutec',
-  tagline: 'Precision-Engineered Taps & Faucets',
-  description: 'Anutec is a leading Indian manufacturer of high-quality bathroom taps, faucets, and accessories — combining precision engineering with elegant design for lasting performance.',
+  name: 'Diamond Marketing And Product Manufacturing',
+  tagline: 'Anutec Taps — Precision-Engineered Faucets & Accessories',
+  description: 'Diamond Marketing And Product Manufacturing is a leading Indian manufacturer of Anutec Taps — high-quality bathroom faucets, kitchen taps, shower mixers, and accessories combining precision engineering with elegant design for lasting performance.',
   email: 'info@anutec.in',
   phone: '0000000000',
   website: 'https://www.anutecdmindia.com/',
-  address: 'Anutec Manufacturing Facility, Hyderabad, India',
+  address: 'Diamond Marketing And Product Manufacturing, Hyderabad, India',
   showPrices: false,
 };
