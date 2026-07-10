@@ -213,7 +213,7 @@ export default function CatalogHeader({
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0 group">
               <img
-                src="/img/anutec-logo.svg"
+                src="/img/main-logo.jpg"
                 alt="Anutec Taps"
                 className="h-8 sm:h-10 w-auto"
               />
@@ -465,7 +465,7 @@ export default function CatalogHeader({
               {/* Drawer Header */}
               <div className="sticky top-0 bg-white z-10 px-5 py-5 border-b border-gray-100 flex items-center justify-between">
                 <img
-                  src="/img/anutec-logo.svg"
+                  src="/img/main-logo.jpg"
                   alt="Anutec Taps"
                   className="h-7 w-auto"
                 />
