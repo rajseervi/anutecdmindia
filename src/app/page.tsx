@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import nextDynamic from "next/dynamic";
 import { CompanyProfile, DEFAULT_COMPANY_PROFILE } from "@/types/company";
 import CatalogHeader, { type CatalogHeaderConfig } from "@/components/CatalogHeader";
 import { useScrollBehavior } from "@/hooks/useScrollBehavior";
+import BrandGalaxySlider from "@/components/BrandGalaxySlider";
 import ProblemBanner from "@/components/home/ProblemBanner";
 import FeaturedCategories from "@/components/home/FeaturedCategories";
 import WhyAnutec from "@/components/home/WhyAnutec";
@@ -20,7 +22,13 @@ export const dynamic = "force-dynamic";
 
 export default function HomePage() {
   const [company, setCompany] = useState<CompanyProfile>(DEFAULT_COMPANY_PROFILE);
+  const [searchTerm, setSearchTerm] = useState("");
   const { isScrolled } = useScrollBehavior();
+  const router = useRouter();
+
+  const handleSearchSubmit = (term: string) => {
+    router.push(`/search?search=${encodeURIComponent(term)}`);
+  };
 
   useEffect(() => {
     const fetchCompany = async () => {
@@ -42,7 +50,7 @@ export default function HomePage() {
     companyName: company.name,
     tagline: company.tagline,
     totalProducts: 0,
-    searchTerm: "",
+    searchTerm,
     isSearching: false,
     isScrolled,
     phone: company.phone,
@@ -53,10 +61,12 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       <CatalogHeader
         config={headerConfig}
-        onSearchChange={() => {}}
-        onClearSearch={() => {}}
+        onSearchChange={setSearchTerm}
+        onClearSearch={() => setSearchTerm("")}
+        onSearchSubmit={handleSearchSubmit}
       />
       <BackgroundPaths title="Anutec Taps" />
+      <BrandGalaxySlider />
       <ProblemBanner />
       <FeaturedCategories />
       <WhyAnutec />

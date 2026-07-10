@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none">
+  <!-- A letterform icon -->
+  <rect x="2" y="6" width="36" height="36" rx="8" fill="#2563eb" opacity="0.12"/>
+  <path d="M14 34V14h4l6 12 6-12h4v20h-4V20l-6 12-6-12v14h-4z" fill="#2563eb"/>
+  <!-- Text: ANUTEC -->
+  <text x="46" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="900" letter-spacing="-0.5" fill="#1a1a2e">ANUTEC</text>
+  <!-- Taps text -->
+  <text x="46" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="600" letter-spacing="3" fill="#2563eb">TAPS & FAUCETS</text>
+</svg>

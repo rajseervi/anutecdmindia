@@ -24,6 +24,7 @@ interface CatalogHeaderProps {
   config: CatalogHeaderConfig;
   onSearchChange: (value: string) => void;
   onClearSearch: () => void;
+  onSearchSubmit?: (term: string) => void;
 }
 
 /* ------------------------------------------------------------------ */
@@ -45,13 +46,11 @@ const PRIMARY_NAV: NavItem[] = [
   { href: "/scan", label: "Scan QR", bottomNav: true },
 ];
 
-const CATEGORY_NAV: NavItem[] = [
-  { href: "/search?category=taps", label: "Taps" },
-  { href: "/search?category=faucets", label: "Faucets" },
-  { href: "/search?category=mixers", label: "Mixers" },
-  { href: "/search?category=showers", label: "Showers" },
-  { href: "/search?category=accessories", label: "Accessories" },
-  { href: "/search", label: "On Sale", isSale: true },
+const DESKTOP_PAGE_LINKS: NavItem[] = [
+  { href: "/", label: "Home" },
+  { href: "/search", label: "All Products" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const SEARCH_HINTS = [
@@ -83,6 +82,7 @@ export default function CatalogHeader({
   config,
   onSearchChange,
   onClearSearch,
+  onSearchSubmit,
 }: CatalogHeaderProps) {
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const drawerRef = useRef<HTMLDivElement | null>(null);
@@ -98,6 +98,15 @@ export default function CatalogHeader({
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onSearchChange(e.target.value);
+  };
+
+  /* ── Submit search on Enter ── */
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchTerm.trim() && onSearchSubmit) {
+      e.preventDefault();
+      onSearchSubmit(searchTerm.trim());
+      searchInputRef.current?.blur();
+    }
   };
 
   /* ── Keyboard shortcuts ── */
@@ -203,9 +212,11 @@ export default function CatalogHeader({
           <div className="flex items-center h-16 sm:h-20 gap-4">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0 group">
-              <span className="text-xl sm:text-2xl font-black tracking-tighter text-gray-900 group-hover:text-gray-600 transition-colors">
-                {companyName || "ANUTEC"}
-              </span>
+              <img
+                src="/img/anutec-logo.svg"
+                alt="Anutec Taps"
+                className="h-8 sm:h-10 w-auto"
+              />
             </Link>
 
             {/* Search — hidden on mobile unless focused */}
@@ -241,6 +252,7 @@ export default function CatalogHeader({
                       type="text"
                       value={searchTerm}
                       onChange={handleSearchChange}
+                      onKeyDown={handleSearchKeyDown}
                       onFocus={() => setSearchFocused(true)}
                       onBlur={() => setSearchFocused(false)}
                       placeholder={SEARCH_HINTS[placeholderIndex]}
@@ -341,23 +353,21 @@ export default function CatalogHeader({
         {/* ── Secondary Nav ── */}
         <div className="hidden lg:block border-t border-gray-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <nav className="flex items-center gap-0 -ml-3" aria-label="Category navigation">
-              {CATEGORY_NAV.map((item) => {
-                const isActive = pathname.startsWith(item.href.split("?")[0]);
+            <nav className="flex items-center gap-0 -ml-3" aria-label="Page navigation">
+              {DESKTOP_PAGE_LINKS.map((item) => {
+                const isActive = getActiveForLink(item.href);
                 return (
                   <Link
                     key={item.label}
                     href={item.href}
-                    className={`relative px-3 py-3 text-xs font-semibold tracking-wide uppercase transition-colors ${
-                      item.isSale
-                        ? "text-red-500 hover:text-red-600"
-                        : isActive
-                          ? "text-gray-900"
-                          : "text-gray-500 hover:text-gray-900"
+                    className={`relative px-3 py-3 text-sm font-semibold transition-colors ${
+                      isActive
+                        ? "text-gray-900"
+                        : "text-gray-500 hover:text-gray-900"
                     }`}
                   >
                     {item.label}
-                    {isActive && !item.isSale && (
+                    {isActive && (
                       <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-gray-900" />
                     )}
                   </Link>
@@ -454,9 +464,11 @@ export default function CatalogHeader({
             >
               {/* Drawer Header */}
               <div className="sticky top-0 bg-white z-10 px-5 py-5 border-b border-gray-100 flex items-center justify-between">
-                <span className="text-xl font-black tracking-tighter text-gray-900">
-                  {companyName || "ANUTEC"}
-                </span>
+                <img
+                  src="/img/anutec-logo.svg"
+                  alt="Anutec Taps"
+                  className="h-7 w-auto"
+                />
                 <button
                   onClick={() => setDrawerOpen(false)}
                   className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition-colors"
@@ -526,28 +538,6 @@ export default function CatalogHeader({
                     </button>
                   );
                 })}
-              </div>
-
-              {/* Category Links */}
-              <div className="px-4 py-3 border-t border-gray-100">
-                <p className="px-3 pb-2 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Shop by Category</p>
-                <div className="space-y-0.5">
-                  {CATEGORY_NAV.map((item) => (
-                    <button
-                      key={item.label}
-                      onClick={() => {
-                        window.location.href = item.href;
-                        setDrawerOpen(false);
-                      }}
-                      className={`w-full flex items-center gap-2.5 px-4 py-2.5 rounded-lg text-sm transition-colors text-left ${
-                        item.isSale ? "text-red-500 font-semibold" : "text-gray-500 hover:text-gray-800 hover:bg-gray-50"
-                      }`}
-                    >
-                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.isSale ? "bg-red-400" : "bg-gray-300"}`} />
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
               </div>
 
               {/* Footer */}

@@ -10,7 +10,7 @@ export interface CompanyProfile {
 }
 
 export const DEFAULT_COMPANY_PROFILE: CompanyProfile = {
-  name: 'Diamond Marketing And Product Manufacturing',
+  name: 'Diamond Marketing',
   tagline: 'Anutec Taps — Precision-Engineered Faucets & Accessories',
   description: 'Diamond Marketing And Product Manufacturing is a leading Indian manufacturer of Anutec Taps — high-quality bathroom faucets, kitchen taps, shower mixers, and accessories combining precision engineering with elegant design for lasting performance.',
   email: 'info@anutec.in',

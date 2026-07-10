@@ -25,10 +25,12 @@ function LogoutButton() {
     try {
       setIsSigningOut(true);
       setShowConfirmDialog(false);
-      try {
-        await firebaseSignOut(auth);
-      } catch {
-        // continue
+      if (auth) {
+        try {
+          await firebaseSignOut(auth);
+        } catch {
+          // continue
+        }
       }
       await signOut({ callbackUrl: "/" });
     } catch (error) {

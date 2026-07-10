@@ -1,6 +1,6 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { initializeApp, type FirebaseApp } from 'firebase/app';
+import { getFirestore, type Firestore } from 'firebase/firestore';
+import { getAuth, type Auth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,6 +12,20 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const auth = getAuth(app);
+function getFirebaseApp(): FirebaseApp | null {
+  if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+    console.warn("Firebase: Missing API key or project ID. Auth features disabled.");
+    return null;
+  }
+  try {
+    return initializeApp(firebaseConfig);
+  } catch (e) {
+    console.error("Firebase: Failed to initialize app:", e);
+    return null;
+  }
+}
+
+const app = getFirebaseApp();
+
+export const db: Firestore | null = app ? getFirestore(app) : null;
+export const auth: Auth | null = app ? getAuth(app) : null;

@@ -89,7 +89,9 @@ function SidebarContent() {
   const handleLogout = async () => {
     try {
       setIsSigningOut(true);
-      try { await firebaseSignOut(auth); } catch { /* continue */ }
+      if (auth) {
+        try { await firebaseSignOut(auth); } catch { /* continue */ }
+      }
       await signOut({ callbackUrl: "/" });
     } catch (error) {
       console.error("Logout error:", error);

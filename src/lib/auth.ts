@@ -20,6 +20,10 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Email and password are required");
         }
 
+        if (!auth) {
+          throw new Error("Authentication service is not configured. Please set Firebase environment variables.");
+        }
+
         try {
           const userCredential = await signInWithEmailAndPassword(
             auth,
