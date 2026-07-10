@@ -31,6 +31,12 @@ export default function SetupAdminPage() {
 
     setIsLoading(true);
 
+    if (!auth) {
+      setError("Firebase is not initialized. Check your configuration.");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       // Create user in Firebase
       const userCredential = await createUserWithEmailAndPassword(

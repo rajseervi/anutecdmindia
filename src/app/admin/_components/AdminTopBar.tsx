@@ -14,7 +14,9 @@ export default function AdminTopBar() {
 
   const handleLogout = async () => {
     setSigningOut(true);
-    try { await firebaseSignOut(auth); } catch { /* continue */ }
+    if (auth) {
+      try { await firebaseSignOut(auth); } catch { /* continue */ }
+    }
     await signOut({ callbackUrl: "/" });
   };
 
