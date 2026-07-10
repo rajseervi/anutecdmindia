@@ -16,9 +16,9 @@ const BADGE_COLORS: Record<string, { text: string; bg: string; ring: string }> =
 };
 
 const DEFAULT_BRANDS: Brand[] = [
-  { name: "Ashirvad",   description: "Pipes & Water Tanks",   badgeColor: "emerald", sortOrder: 0 },
-  { name: "Hindware",   description: "Sanitaryware",           badgeColor: "slate",   sortOrder: 1 },
-  { name: "Watertec",   description: "Bath Fittings",          badgeColor: "slate",   sortOrder: 2 },
+  { name: "DIAMOND SERIES",   description: "DIAMOND Bath Fittings",   badgeColor: "emerald", sortOrder: 0 },
+  { name: "ACTIVE SERIES",   description: "ACTIVE Bath Fittings",           badgeColor: "slate",   sortOrder: 1 },
+  { name: "LX SERIES",   description: "LX Bath Fittings",          badgeColor: "slate",   sortOrder: 2 },
 ];
 
 export default function CatalogFooter() {

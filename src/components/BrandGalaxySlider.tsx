@@ -13,14 +13,14 @@ interface Brand {
 
 /* ── Default brand data with local images ─────────────────── */
 const DEFAULT_BRANDS: Brand[] = [
-  { name: "Ashirvad", description: "Pipes & Water Tanks", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.43 AM.jpeg" },
-  { name: "Hindware", description: "Sanitaryware", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.44 AM (1).jpeg" },
-  { name: "Watertec", description: "Bath Fittings", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.44 AM.jpeg" },
-  { name: "Anutec", description: "Premium Taps", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.45 AM (1).jpeg" },
-  { name: "Diamond", description: "Marketing & Mfg", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.45 AM (2).jpeg" },
-  { name: "Premium", description: "Bathware", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.45 AM.jpeg" },
-  { name: "Kitchen", description: "Sinks & Mixers", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.46 AM.jpeg" },
-  { name: "Showers", description: "Rain & Handheld", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.47 AM (1).jpeg" },
+  { name: "ACTIVE SERIES", description: "Bath Fittings", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.43 AM.jpeg" },
+  { name: "LX SERIES", description: "Bath Fittings", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.44 AM (1).jpeg" },
+  { name: "DIAMOND SERIES", description: "Bath Fittings", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.44 AM.jpeg" },
+  { name: "ANUTEC", description: "Premium Taps", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.45 AM (1).jpeg" },
+  { name: "ACCESSORIES", description: "Marketing & Mfg", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.45 AM (2).jpeg" },
+  { name: "PREMIUM", description: "Bathware", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.45 AM.jpeg" },
+  { name: "KITCHEN", description: "Sinks & Mixers", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.46 AM.jpeg" },
+  { name: "SHOWERS", description: "Rain & Handheld", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.47 AM (1).jpeg" },
 ];
 
 

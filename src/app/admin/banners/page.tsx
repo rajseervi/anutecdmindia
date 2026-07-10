@@ -280,7 +280,7 @@ export default function AdminBannersPage() {
                   <textarea
                     value={form.description}
                     onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-                    placeholder="Your trusted dealer for Ashirvad, Hindware & Watertec..."
+                    placeholder="Your trusted dealer for high-quality plumbing solutions..."
                     rows={3}
                     className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:ring-indigo-500"
                   />

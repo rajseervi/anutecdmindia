@@ -660,7 +660,7 @@ export default function EnhancedBackgroundPaths({
                 transition={{ delay: 1, duration: 1 }}
                 className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 font-light tracking-wide max-w-2xl mx-auto"
               >
-                Experience the future of interactive design with dynamic pattern generation
+                Precision-Engineered Taps & Faucets for Modern Indian Bathrooms
               </motion.p>
             </div>
 
@@ -687,7 +687,7 @@ export default function EnhancedBackgroundPaths({
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
                   >
                     <span className="relative">
-                      Explore Patterns
+                      Explore Products
                       <motion.span
                         className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 group-hover:w-full transition-all duration-300"
                         initial={{ width: 0 }}
@@ -713,7 +713,7 @@ export default function EnhancedBackgroundPaths({
               transition={{ delay: 2, duration: 1 }}
               className="mt-12 text-sm text-slate-500 dark:text-slate-400 font-mono tracking-wider"
             >
-              Current Pattern:{" "}
+              manufactures high-quality bathroom faucets, kitchen taps, shower mixers, and accessories :{" "}
               <span className="text-slate-700 dark:text-slate-200 font-semibold capitalize">
                 {patterns[currentPattern]}
               </span>
