@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import CatalogHeader, { type CatalogHeaderConfig } from "@/components/CatalogHeader";
-import CatalogFooter from "@/components/CatalogFooter";
 import SearchLoader from "@/components/SearchLoader";
 import { useScrollBehavior } from "@/hooks/useScrollBehavior";
 import { normalizeImageUrl } from "@/lib/imageUrl";
@@ -558,11 +557,6 @@ export default function SearchPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
         {renderProducts()}
       </main>
-
-      {/* ════════════════════════════════════════
-          FOOTER
-          ════════════════════════════════════════ */}
-      <CatalogFooter />
 
       {/* ════════════════════════════════════════
           SCROLL TO TOP (with progress ring)
