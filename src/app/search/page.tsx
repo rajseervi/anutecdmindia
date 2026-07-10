@@ -457,7 +457,7 @@ export default function SearchPage() {
       {/* ════════════════════════════════════════
           CATEGORY FILTER
           ════════════════════════════════════════ */}
-      <div className="sticky top-[60px] sm:top-[68px] md:top-[80px] lg:top-[136px] z-40 bg-white/90 backdrop-blur-2xl border-b border-slate-200/70 shadow-[0_1px_0_rgba(0,0,0,0.02)]">
+      <div className="sticky top-[56px] sm:top-[72px] md:top-[80px] lg:top-[124px] z-40 bg-white/90 backdrop-blur-2xl border-b border-slate-200/70 shadow-[0_1px_0_rgba(0,0,0,0.02)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div
             ref={categoryScrollRef}

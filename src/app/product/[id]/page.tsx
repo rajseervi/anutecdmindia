@@ -178,8 +178,8 @@ function ProductContent() {
     <div className="min-h-screen bg-gray-50">
       <CatalogHeader config={headerConfig} onSearchChange={handleSearchChange} onClearSearch={handleClearSearch} />
 
-      {/* Breadcrumb Nav — scrollable on mobile */}
-      <div className="bg-white border-b border-gray-100">
+      {/* Breadcrumb Nav — sticky below header */}
+      <div className="sticky z-40 bg-white border-b border-gray-100 top-16 sm:top-20">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center h-12 sm:h-14 gap-1 sm:gap-2 text-xs sm:text-sm overflow-x-auto scrollbar-hide whitespace-nowrap">
@@ -229,24 +229,35 @@ function ProductContent() {
           {/* ── Image ── */}
           <div className="relative bg-white rounded-2xl border border-gray-100 overflow-hidden group">
             <div className="aspect-square relative bg-gray-50">
-              {!imageLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-8 h-8 rounded-full border-2 border-gray-100 border-t-indigo-400 animate-spin" />
+              {!product.imageUrl ? (
+                <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+                  <svg className="w-20 h-20" fill="none" stroke="currentColor" strokeWidth="1" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+                  </svg>
                 </div>
+              ) : (
+                <>
+                  {!imageLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center z-10 bg-gray-50">
+                      <div className="w-8 h-8 rounded-full border-2 border-gray-200 border-t-indigo-500 animate-spin" />
+                    </div>
+                  )}
+                  <Image
+                    src={normalizeImageUrl(product.imageUrl)}
+                    alt={product.name}
+                    fill
+                    className={`object-cover transition-all duration-500 group-hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    onLoad={() => setImageLoaded(true)}
+                    onError={() => setImageLoaded(true)}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                    unoptimized
+                  />
+                </>
               )}
-              <Image
-                src={normalizeImageUrl(product.imageUrl)}
-                alt={`${product.name} – Plumbing product at Anutec  Wholesale Pipes & Fittings Supplier`}
-                fill
-                className={`object-cover transition-all duration-500 group-hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                onLoad={() => setImageLoaded(true)}
-                onError={() => setImageLoaded(true)}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/[0.02] to-transparent pointer-events-none" />
             </div>
-            <div className={`absolute top-4 right-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ring-1 shadow-sm ${stockInfo.color}`}>
+            <div className={`absolute top-4 right-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ring-1 shadow-sm backdrop-blur-sm ${stockInfo.color}`}>
               <span className={`w-1.5 h-1.5 rounded-full ${stockInfo.dot}`} />
               {stockInfo.label}
             </div>
@@ -375,15 +386,15 @@ function ProductContent() {
                   href={`/product/${rp.id}`}
                   className="group bg-white rounded-xl border border-gray-100 overflow-hidden hover:border-gray-200 hover:shadow-lg hover:shadow-gray-200/50 transition-all duration-300"
                 >
-                  <div className="relative overflow-hidden bg-gray-50">
+                  <div className="relative aspect-square bg-gray-50">
                     <Image
                       src={normalizeImageUrl(rp.imageUrl)}
-                      alt={`${rp.name} – Plumbing & sanitaryware`}
-                      width={200}
-                      height={200}
-                      className="w-full aspect-square object-cover transition-all duration-500 group-hover:scale-105"
+                      alt={rp.name}
+                      fill
+                      className="object-cover transition-all duration-500 group-hover:scale-105"
                       loading="lazy"
                       sizes="(max-width: 640px) 50vw, 25vw"
+                      unoptimized
                     />
                   </div>
                   <div className="p-3">
