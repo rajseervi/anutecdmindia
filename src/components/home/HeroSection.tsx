@@ -211,7 +211,7 @@ function HeroBackground() {
 /* Hero Section                                                       */
 /* ------------------------------------------------------------------ */
 
-export default function HeroSection({ companyName: _companyName, phone }: HeroSectionProps) {
+export default function HeroSection({ phone }: HeroSectionProps) {
   const sanitizedPhone = useMemo(() => phone.replace(/\s+/g, ""), [phone]);
 
   return (

@@ -11,7 +11,7 @@ interface Brand {
   imageUrl?: string;
 }
 
-/* ── Default brand data with local images ─────────────────── */
+/* ── Default brand data with local images (fallback) ─────── */
 const DEFAULT_BRANDS: Brand[] = [
   { name: "ACTIVE SERIES", description: "Bath Fittings", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.43 AM.jpeg" },
   { name: "LX SERIES", description: "Bath Fittings", imageUrl: "/img/WhatsApp Image 2026-07-09 at 11.30.44 AM (1).jpeg" },
@@ -45,12 +45,13 @@ export default function BrandGalaxySlider() {
         const res = await fetch("/api/brands");
         const data = await res.json();
         if (data.brands?.length > 0) {
-          const mapped: Brand[] = data.brands.map((b: { name: string; description: string }, i: number) => ({
+          // Use the API data directly — imageUrl is now managed in the sheet
+          const mapped: Brand[] = data.brands.map((b: { name: string; description: string; imageUrl: string }) => ({
             name: b.name,
             description: b.description,
-            imageUrl: DEFAULT_BRANDS[i % DEFAULT_BRANDS.length]?.imageUrl,
+            imageUrl: b.imageUrl || undefined,
           }));
-          setBrands(mapped.length >= 4 ? mapped : DEFAULT_BRANDS);
+          setBrands(mapped.length >= 2 ? mapped : DEFAULT_BRANDS);
         }
       } catch { /* use defaults */ }
     };

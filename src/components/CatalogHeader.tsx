@@ -93,7 +93,7 @@ export default function CatalogHeader({
   const [categoryFilter, setCategoryFilter] = useState("all");
   const pathname = usePathname();
 
-  const { companyName, searchTerm, isSearching, isScrolled, phone, email } = config;
+  const { searchTerm, isSearching, isScrolled, phone, email } = config;
   const placeholderIndex = useRotatingPlaceholder(4000);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {

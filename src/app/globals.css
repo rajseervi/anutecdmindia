@@ -31,6 +31,12 @@
   --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.06);
 }
 
+/* ── Custom breakpoint for extra-small screens ──── */
+@custom-media --xs (min-width: 480px);
+@theme {
+  --breakpoint-xs: 480px;
+}
+
 .dark {
   --background: #0f172a;
   --foreground: #f8fafc;
@@ -304,6 +310,313 @@ html {
 
 .bg-warm-accent {
   background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fef3c7 100%);
+}
+
+/* ═════════════════════════════════════════════════════
+   ADMIN MODERN DESIGN SYSTEM
+   ═════════════════════════════════════════════════════ */
+
+/* ── Gradient border cards ───────────────────────── */
+.gradient-border-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.gradient-border-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(139,92,246,0.2), rgba(236,72,153,0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ── Stat card with glow ─────────────────────────── */
+.stat-glow-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 16px;
+  padding: 1.25rem;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.stat-glow-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 16px 16px 0 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.stat-glow-card:hover {
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  transform: translateY(-2px);
+}
+.stat-glow-card:hover::after {
+  opacity: 1;
+}
+.stat-glow-card.indigo::after { background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+.stat-glow-card.emerald::after { background: linear-gradient(90deg, #10b981, #34d399); }
+.stat-glow-card.amber::after { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.stat-glow-card.red::after { background: linear-gradient(90deg, #ef4444, #f87171); }
+.stat-glow-card.violet::after { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+.stat-glow-card.cyan::after { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+
+/* ── Glow icon container ─────────────────────────── */
+.glow-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+.glow-icon::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 15px;
+  opacity: 0.15;
+  z-index: 0;
+}
+.glow-icon.indigo::before { background: #6366f1; }
+.glow-icon.emerald::before { background: #10b981; }
+.glow-icon.amber::before { background: #f59e0b; }
+.glow-icon.red::before { background: #ef4444; }
+.glow-icon.violet::before { background: #8b5cf6; }
+
+/* ── Bento grid item ─────────────────────────────── */
+.bento-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.bento-card:hover {
+  border-color: #e2e8f0;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.03);
+  transform: translateY(-1px);
+}
+.bento-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 20%, rgba(99,102,241,0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ── Welcome banner ──────────────────────────────── */
+.welcome-banner {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 30%, #4338ca 60%, #4f46e5 100%);
+  border-radius: 24px;
+  padding: 2rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+  box-shadow: 0 10px 40px rgba(79, 70, 229, 0.2);
+}
+.welcome-banner::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+.welcome-banner::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  left: 30%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+  pointer-events: none;
+}
+.welcome-banner .decorative-dots {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  opacity: 0.2;
+}
+.welcome-banner .decorative-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+/* ── Mini sparkline bar ──────────────────────────── */
+.sparkline-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 32px;
+}
+.sparkline-bar .spark-bar {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  min-width: 3px;
+  transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Sidebar modern ──────────────────────────────── */
+.sidebar-modern {
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+}
+.sidebar-link-active {
+  background: rgba(99, 102, 241, 0.12);
+  border-left: 3px solid #818cf8;
+  box-shadow: inset 0 0 20px rgba(99, 102, 241, 0.06);
+}
+
+/* ── Top bar breadcrumb ─────────────────────────── */
+.breadcrumb-separator {
+  color: #cbd5e1;
+  font-size: 0.75rem;
+}
+
+/* ── Pulse dot for notifications ────────────────── */
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  position: relative;
+}
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: #ef4444;
+  opacity: 0.3;
+  animation: pulse-ring 2s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ── Data row hover ──────────────────────────────── */
+.data-row-hover {
+  transition: all 0.15s ease;
+}
+.data-row-hover:hover {
+  background: #f8fafc;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  border-radius: 8px;
+}
+
+/* ── Modern input for admin ──────────────────────── */
+.admin-input {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  color: #1e293b;
+}
+.admin-input:focus {
+  outline: none;
+  border-color: #818cf8;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+}
+.admin-input::placeholder {
+  color: #94a3b8;
+}
+
+/* ── Chip / badge modern ─────────────────────────── */
+.chip-modern {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ── Page transition ─────────────────────────────── */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-page-enter {
+  animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Tooltip on hover ────────────────────────────── */
+.tooltip-trigger {
+  position: relative;
+}
+.tooltip-trigger .tooltip-content {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(8px);
+  background: #1e293b;
+  color: #ffffff;
+  padding: 0.375rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  z-index: 50;
+}
+.tooltip-trigger:hover .tooltip-content {
+  opacity: 1;
+  transform: translateY(-50%) translateX(12px);
+}
+
+/* ── Profile avatar ring ─────────────────────────── */
+.avatar-ring {
+  position: relative;
+}
+.avatar-ring::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  z-index: -1;
+}
+
+/* ── Mobile sidebar slide ────────────────────────── */
+@keyframes mobileSlideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+.animate-mobileSlideIn {
+  animation: mobileSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ── Section heading accent line ──────────────────── */

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -29,7 +29,6 @@ const SOLUTIONS = [
 
 export default function ProblemBanner() {
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <section ref={ref} className="relative bg-warm-light py-20 sm:py-28 lg:py-32 overflow-hidden">

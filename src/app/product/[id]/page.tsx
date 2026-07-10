@@ -20,7 +20,6 @@ function ProductContent() {
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [company, setCompany] = useState<CompanyProfile>(DEFAULT_COMPANY_PROFILE);
   const [searchTerm, setSearchTerm] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
   const { isScrolled } = useScrollBehavior();
   const router = useRouter();
 
@@ -109,7 +108,7 @@ function ProductContent() {
     tagline: company.tagline,
     totalProducts: 0,
     searchTerm,
-    isSearching,
+    isSearching: false,
     isScrolled,
     phone: company.phone,
     email: company.email,

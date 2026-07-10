@@ -16,11 +16,10 @@ const BADGE_COLORS: Record<string, { text: string; bg: string; ring: string }> =
 };
 
 const DEFAULT_BRANDS: Brand[] = [
-  { name: "DIAMOND SERIES",   description: "DIAMOND Bath Fittings",   badgeColor: "emerald", sortOrder: 0 },
-  { name: "ACTIVE SERIES",   description: "ACTIVE Bath Fittings",           badgeColor: "slate",   sortOrder: 1 },
-  { name: "LX SERIES",   description: "LX Bath Fittings",          badgeColor: "slate",   sortOrder: 2 },
+  { id: "default-1", name: "DIAMOND SERIES",   description: "DIAMOND Bath Fittings",   imageUrl: "", badgeColor: "emerald", sortOrder: 0 },
+  { id: "default-2", name: "ACTIVE SERIES",   description: "ACTIVE Bath Fittings",           imageUrl: "", badgeColor: "slate",   sortOrder: 1 },
+  { id: "default-3", name: "LX SERIES",   description: "LX Bath Fittings",          imageUrl: "", badgeColor: "slate",   sortOrder: 2 },
 ];
-
 export default function CatalogFooter() {
   const [company, setCompany] = useState<CompanyProfile>(DEFAULT_COMPANY_PROFILE);
   const [brands, setBrands] = useState<Brand[]>(DEFAULT_BRANDS);
@@ -111,7 +110,7 @@ export default function CatalogFooter() {
             {/* Category badges */}
             <div className="mt-5 flex flex-wrap items-center gap-2">
               {brands.length > 0 && brands.map((brand) => {
-                const colors = BADGE_COLORS[brand.badgeColor] || BADGE_COLORS.slate;
+                const colors = BADGE_COLORS[brand.badgeColor ?? "slate"] || BADGE_COLORS.slate;
                 return (
                   <span
                     key={brand.name}

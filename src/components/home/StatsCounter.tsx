@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
+import { useInView, useMotionValue, useTransform, animate } from "framer-motion";
 
 const STATS = [
   { value: 200, suffix: "+", label: "Product Variants" },

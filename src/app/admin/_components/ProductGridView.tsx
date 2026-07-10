@@ -17,14 +17,14 @@ const FALLBACK_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 function StockBadge({ inventory }: { inventory: number }) {
   if (inventory === 0) {
     return (
-      <span className="absolute top-3 right-3 bg-red-500 text-white px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider shadow-sm">
+      <span className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-red-500 text-white px-1.5 sm:px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider shadow-sm">
         Out of Stock
       </span>
     );
   }
   if (inventory <= 5) {
     return (
-      <span className="absolute top-3 right-3 bg-amber-400 text-amber-900 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider shadow-sm">
+      <span className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-amber-400 text-amber-900 px-1.5 sm:px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider shadow-sm">
         Low Stock
       </span>
     );
@@ -72,10 +72,9 @@ export default function ProductGridView({ products, selectedProducts, onToggleSe
   if (products.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
       {products.map((product, index) => {
         const isSelected = selectedProducts.includes(product.id);
-        const stockStatus = product.inventory === 0 ? "out" : product.inventory <= 5 ? "low" : "ok";
         return (
           <div
             key={product.id || `product-${index}`}
@@ -86,40 +85,40 @@ export default function ProductGridView({ products, selectedProducts, onToggleSe
             }`}
             style={{ animationDelay: `${index * 50}ms` }}
           >
-            <div className="relative h-44 bg-slate-50 border-b border-slate-200 overflow-hidden">
+            <div className="relative h-36 sm:h-44 bg-slate-50 border-b border-slate-200 overflow-hidden">
               <ProductImage src={product.imageUrl} alt={product.name || "Product image"} />
               <StockBadge inventory={product.inventory} />
               {product.hidden && (
-                <span className="absolute bottom-3 left-3 bg-slate-900/70 text-white px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm">
+                <span className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 bg-slate-900/70 text-white px-1.5 sm:px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm">
                   Hidden
                 </span>
               )}
-              <label className="absolute top-3 left-3 z-10 cursor-pointer">
+              <label className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={isSelected}
                   onChange={() => onToggleSelect(product.id)}
-                  className="h-4 w-4 rounded border-slate-400 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                  className="h-3.5 w-3.5 sm:h-4 sm:w-4 rounded border-slate-400 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
                 />
               </label>
             </div>
 
-            <div className="p-4">
+            <div className="p-3 sm:p-4">
               <div className="flex items-start justify-between gap-2">
-                <h3 className="text-sm font-semibold text-slate-900 truncate flex-1">{product.name}</h3>
-                <p className="text-lg font-bold text-emerald-600 shrink-0">
+                <h3 className="text-xs sm:text-sm font-semibold text-slate-900 truncate flex-1">{product.name}</h3>
+                <p className="text-base sm:text-lg font-bold text-emerald-600 shrink-0">
                   ${typeof product.price === "number" ? product.price.toFixed(2) : "0.00"}
                 </p>
               </div>
               {product.category && (
-                <span className="inline-block text-[10px] font-medium px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md mt-1.5 uppercase tracking-wider border border-indigo-200">
+                <span className="inline-block text-[9px] sm:text-[10px] font-medium px-1.5 sm:px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md mt-1 sm:mt-1.5 uppercase tracking-wider border border-indigo-200">
                   {product.category}
                 </span>
               )}
-              <p className="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">{product.description}</p>
+              <p className="text-[11px] sm:text-xs text-slate-500 mt-1.5 sm:mt-2 line-clamp-2 leading-relaxed">{product.description}</p>
 
-              <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
-                <div className="flex items-center text-xs font-medium text-slate-500">
+              <div className="flex items-center justify-between mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-100">
+                <div className="flex items-center text-[11px] sm:text-xs font-medium text-slate-500">
                   <StockIndicator inventory={product.inventory} />
                   {product.inventory === 0 ? (
                     <span className="text-red-600 font-semibold">No stock</span>
@@ -132,16 +131,16 @@ export default function ProductGridView({ products, selectedProducts, onToggleSe
                 </div>
               </div>
 
-              <div className="flex gap-2 mt-3">
+              <div className="flex gap-1.5 sm:gap-2 mt-2 sm:mt-3">
                 <Link
                   href={`/admin/products/edit/${product.id}`}
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white px-3 py-2 rounded-lg text-xs font-medium text-center transition-all shadow-sm"
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-[11px] sm:text-xs font-medium text-center transition-all shadow-sm"
                 >
                   Edit
                 </Link>
                 <Link
                   href={`/product/${product.id}`}
-                  className="flex-1 bg-white hover:bg-slate-50 hover:border-slate-400 active:scale-95 text-slate-700 px-3 py-2 rounded-lg text-xs font-medium text-center border border-slate-300 transition-all"
+                  className="flex-1 bg-white hover:bg-slate-50 hover:border-slate-400 active:scale-95 text-slate-700 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-[11px] sm:text-xs font-medium text-center border border-slate-300 transition-all"
                 >
                   View
                 </Link>

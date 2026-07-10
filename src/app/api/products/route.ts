@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readSheetReadonly, updateSheet, appendSheet, clearSheet, batchUpdate, getSpreadsheet } from '@/lib/sheets';
+import { readSheetReadonly, updateSheet, appendSheet, batchUpdate, getSpreadsheet } from '@/lib/sheets';
 import { CompanyProfile, DEFAULT_COMPANY_PROFILE } from '@/types/company';
 
 const RANGE = 'Sheet1!A2:I';
