@@ -30,9 +30,15 @@ export default function AdminGalleryPage() {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const imageContainerRef = useRef<HTMLDivElement>(null);
+  const zoomRef = useRef(zoom);
+  const panRef = useRef(pan);
 
   const selectedImage = selectedIdx !== null ? images[selectedIdx] : null;
   const totalImages = images.length;
+
+  // Keep refs in sync with state
+  useEffect(() => { zoomRef.current = zoom; }, [zoom]);
+  useEffect(() => { panRef.current = pan; }, [pan]);
 
   // Reset zoom/pan when image changes
   useEffect(() => {
