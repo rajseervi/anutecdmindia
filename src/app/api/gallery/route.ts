@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { listGalleryImages, deleteGalleryImage, uploadGalleryImage } from "@/lib/drive";
+import { listGalleryImages, deleteGalleryImage } from "@/lib/drive";
+import { listStorageImages, uploadGalleryFile, deleteStorageFile } from "@/lib/gallery-storage";
 
 /**
- * GET /api/gallery — List all images in the configured Google Drive folder.
+ * GET /api/gallery — List all images from both Google Drive and Firebase Storage.
  * Requires authentication (session).
  */
 export async function GET(): Promise<NextResponse> {
@@ -14,8 +15,20 @@ export async function GET(): Promise<NextResponse> {
   }
 
   try {
-    const images = await listGalleryImages();
-    return NextResponse.json({ images });
+    const [driveImages, storageImages] = await Promise.all([
+      listGalleryImages().catch(() => []),
+      listStorageImages().catch(() => []),
+    ]);
+
+    // Merge and deduplicate by id, newest first
+    const seen = new Set<string>();
+    const combined = [...storageImages, ...driveImages].filter((img) => {
+      if (seen.has(img.id)) return false;
+      seen.add(img.id);
+      return true;
+    });
+
+    return NextResponse.json({ images: combined });
   } catch (err) {
     console.error("[gallery:GET] Error:", err);
     return NextResponse.json({ error: "Failed to fetch gallery images" }, { status: 500 });
@@ -23,7 +36,7 @@ export async function GET(): Promise<NextResponse> {
 }
 
 /**
- * DELETE /api/gallery?fileId=xxx — Remove a single image from the Drive folder.
+ * DELETE /api/gallery?fileId=xxx — Remove an image from Drive or Storage.
  * Requires authentication (session).
  */
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
@@ -40,9 +53,14 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const deleted = await deleteGalleryImage(fileId);
+    // Try Storage first (if it's a path like "gallery/..."), then Drive
+    const isStorageFile = fileId.startsWith("gallery/");
+    const deleted = isStorageFile
+      ? await deleteStorageFile(fileId)
+      : await deleteGalleryImage(fileId);
+
     if (!deleted) {
-      return NextResponse.json({ error: "Delete failed — check service account permissions" }, { status: 500 });
+      return NextResponse.json({ error: "Delete failed — check storage permissions" }, { status: 500 });
     }
     return NextResponse.json({ success: true });
   } catch (err) {
@@ -54,7 +72,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
 const MAX_FILE_SIZE = 16 * 1024 * 1024; // 16 MB
 
 /**
- * POST /api/gallery — Upload an image file to the configured Google Drive folder.
+ * POST /api/gallery — Upload an image to Firebase Storage.
  * Accepts multipart/form-data with a single "file" field.
  * Requires authentication (session).
  */
@@ -88,9 +106,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const result = await uploadGalleryImage(buffer, file.name, file.type);
+    const result = await uploadGalleryFile(buffer, file.name, file.type);
     if (!result) {
-      return NextResponse.json({ error: "Upload failed — check service account Editor permissions on the Drive folder." }, { status: 500 });
+      return NextResponse.json({ error: "Upload failed — check Firebase Storage permissions." }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, file: result }, { status: 201 });

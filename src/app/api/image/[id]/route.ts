@@ -3,9 +3,8 @@ import { google } from "googleapis";
 
 /**
  * GET /api/image/[id]?w=800
- * PUBLIC endpoint — anyone can access. Proxies an image from Google Drive
- * through the server so it can be used in <img> tags anywhere on the site.
- * Cached aggressively via Cache-Control headers.
+ * PUBLIC endpoint — anyone can access.
+ * Proxies images from Google Drive (by file ID) or Firebase Storage (by path like gallery/xxx.jpg).
  */
 export async function GET(
   request: NextRequest,
@@ -15,6 +14,31 @@ export async function GET(
   const { searchParams } = new URL(request.url);
   const width = searchParams.get("w") || "800";
 
+  // --- Firebase Storage handler (e.g., gallery/1234567890_photo.jpg) ---
+  if (fileId.startsWith("gallery/")) {
+    const bucketName = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
+    if (!bucketName) {
+      return NextResponse.json({ error: "Storage not configured" }, { status: 500 });
+    }
+
+    const storageUrl = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodeURIComponent(fileId)}?alt=media`;
+    try {
+      const res = await fetch(storageUrl);
+      if (!res.ok) throw new Error(`Storage fetch failed: ${res.status}`);
+      const buffer = Buffer.from(await res.arrayBuffer());
+      return new NextResponse(buffer, {
+        headers: {
+          "Content-Type": res.headers.get("content-type") || "image/jpeg",
+          "Cache-Control": "public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000",
+          "Content-Length": buffer.length.toString(),
+        },
+      });
+    } catch {
+      return NextResponse.json({ error: "Failed to load image from storage" }, { status: 500 });
+    }
+  }
+
+  // --- Google Drive handler ---
   const clientEmail = process.env.GOOGLE_DRIVE_CLIENT_EMAIL;
   const privateKey = process.env.GOOGLE_DRIVE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
@@ -31,7 +55,6 @@ export async function GET(
   const drive = google.drive({ version: "v3", auth });
 
   try {
-    // Get file metadata for content-type, then fetch binary
     const [metaRes, imgRes] = await Promise.all([
       drive.files.get({ fileId, fields: "mimeType" }),
       drive.files.get(
@@ -51,7 +74,6 @@ export async function GET(
       },
     });
   } catch {
-    // Fallback: try thumbnail
     try {
       const thumbRes = await drive.files.get({ fileId, fields: "thumbnailLink" });
       const thumbnailLink = (thumbRes.data as { thumbnailLink?: string }).thumbnailLink;

@@ -62,6 +62,8 @@ export async function listGalleryImages(): Promise<
       fields: "files(id, name, webViewLink, webContentLink, thumbnailLink, createdTime, mimeType)",
       orderBy: "createdTime desc",
       pageSize: 100,
+      supportsAllDrives: true,
+      includeItemsFromAllDrives: true,
     });
 
     return (res.data.files || []).map((f) => ({
@@ -124,11 +126,19 @@ export async function uploadGalleryImage(
         body: Readable.from(fileBuffer),
       },
       fields: "id, name",
+      supportsAllDrives: true,
     });
 
     return { id: res.data.id!, name: res.data.name! };
-  } catch (err) {
-    console.error("[drive] Upload failed:", err);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("[drive] Upload failed:", message);
+    if (typeof err === "object" && err !== null && "response" in err) {
+      const resp = (err as { response?: { status?: number; statusText?: string; data?: unknown } }).response;
+      if (resp) {
+        console.error("[drive] API response:", resp.status, resp.statusText, JSON.stringify(resp.data));
+      }
+    }
     return null;
   }
 }
@@ -141,7 +151,7 @@ export async function deleteGalleryImage(fileId: string): Promise<boolean> {
   if (!drive) return false;
 
   try {
-    await drive.files.delete({ fileId });
+    await drive.files.delete({ fileId, supportsAllDrives: true });
     return true;
   } catch (err) {
     console.error("[drive] Failed to delete file:", err);

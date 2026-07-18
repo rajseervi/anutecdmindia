@@ -68,14 +68,14 @@ export default function AdminGalleryPage() {
       if (e.key === "ArrowRight") navigateNext();
       else if (e.key === "ArrowLeft") navigatePrev();
       else if (e.key === "Escape") {
-        if (zoom > 1) { setZoom(1); setPan({ x: 0, y: 0 }); }
+        if (zoomRef.current > 1) { setZoom(1); setPan({ x: 0, y: 0 }); }
         else setSelectedIdx(null);
       }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIdx, totalImages, zoom]);
+  }, [selectedIdx, totalImages]);
 
   const navigatePrev = () => setSelectedIdx((prev) => (prev !== null ? (prev - 1 + totalImages) % totalImages : null));
   const navigateNext = () => setSelectedIdx((prev) => (prev !== null ? (prev + 1) % totalImages : null));
@@ -83,39 +83,50 @@ export default function AdminGalleryPage() {
   // Clamp pan so image doesn't fly off screen entirely
   const clampPan = useCallback((z: number, p: { x: number; y: number }) => {
     if (z <= 1) return { x: 0, y: 0 };
-    const maxShift = (z - 1) * 200; // degrees of freedom grow with zoom
+    const maxShift = (z - 1) * 200;
     return {
       x: Math.max(-maxShift, Math.min(maxShift, p.x)),
       y: Math.max(-maxShift, Math.min(maxShift, p.y)),
     };
   }, []);
 
-  // Zoom via scroll wheel — centers on cursor position
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
+  // Wheel zoom — native listener with passive:false to reliably prevent page scroll
+  useEffect(() => {
     const container = imageContainerRef.current;
-    if (!container) return;
-    const rect = container.getBoundingClientRect();
-    const cx = e.clientX - rect.left - rect.width / 2;
-    const cy = e.clientY - rect.top - rect.height / 2;
+    if (!container || !selectedImage) return;
 
-    setZoom((prevZoom) => {
+    const onWheel = (e: WheelEvent) => {
+      const currentZoom = zoomRef.current;
+      // Only intercept when zooming out or already zoomed. At min zoom scrolling down = let page scroll.
+      if (currentZoom <= 1 && e.deltaY > 0) return;
+      e.preventDefault();
+
+      const rect = container.getBoundingClientRect();
+      const cx = e.clientX - rect.left - rect.width / 2;
+      const cy = e.clientY - rect.top - rect.height / 2;
+
       const delta = e.deltaY > 0 ? -0.1 : 0.1;
-      const newZoom = Math.max(1, Math.min(5, prevZoom + delta));
+      const newZoom = Math.max(1, Math.min(5, currentZoom + delta));
+
       if (newZoom === 1) {
         setPan({ x: 0, y: 0 });
-        return newZoom;
+        setZoom(1);
+        return;
       }
-      // Keep the point under the cursor fixed during zoom
-      const scaleChange = newZoom / prevZoom;
-      setPan((prevPan) => {
-        const newX = cx - scaleChange * (cx - prevPan.x);
-        const newY = cy - scaleChange * (cy - prevPan.y);
-        return clampPan(newZoom, { x: newX, y: newY });
-      });
-      return newZoom;
-    });
-  };
+
+      const scaleChange = newZoom / currentZoom;
+      const prevPan = panRef.current;
+      const newX = cx - scaleChange * (cx - prevPan.x);
+      const newY = cy - scaleChange * (cy - prevPan.y);
+      const clamped = clampPan(newZoom, { x: newX, y: newY });
+
+      setPan(clamped);
+      setZoom(newZoom);
+    };
+
+    container.addEventListener("wheel", onWheel, { passive: false });
+    return () => container.removeEventListener("wheel", onWheel);
+  }, [selectedImage, clampPan]);
 
   // Click toggle zoom — centers on click point
   const handleImageClick = (e: React.MouseEvent) => {
@@ -387,7 +398,7 @@ export default function AdminGalleryPage() {
         {uploading ? (
           <div className="flex flex-col items-center gap-3">
             <div className="w-10 h-10 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm font-semibold text-indigo-700">Uploading to Google Drive...</p>
+            <p className="text-sm font-semibold text-indigo-700">Uploading...</p>
             <p className="text-xs text-indigo-500">Please wait while files are being uploaded</p>
           </div>
         ) : (
@@ -509,7 +520,6 @@ export default function AdminGalleryPage() {
 
           {/* Main image area — fills remaining height */}
           <div ref={imageContainerRef} className="flex-1 min-h-0 flex items-center justify-center overflow-hidden relative"
-            onWheel={handleWheel}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}>
             {/* Prev button — smaller on mobile */}
