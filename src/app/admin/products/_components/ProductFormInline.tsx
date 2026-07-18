@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Product } from "@/types/product";
 import { normalizeImageUrl } from "@/lib/imageUrl";
+import GalleryImagePicker from "@/app/admin/_components/GalleryImagePicker";
 import Image from "next/image";
 
 interface ProductFormInlineProps {
@@ -83,9 +84,15 @@ export function ProductFormInline({
               <label className="block text-sm font-medium text-slate-700 mb-1.5">
                 Image URL <span className="text-red-500">*</span>
               </label>
-              <input type="url" value={form.imageUrl} onChange={(e) => onChange("imageUrl", e.target.value)}
-                className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-slate-50 focus:bg-white text-sm"
-                placeholder="https://example.com/image.jpg" required />
+              <div className="flex gap-2">
+                <input type="url" value={form.imageUrl} onChange={(e) => onChange("imageUrl", e.target.value)}
+                  className="flex-1 px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-slate-50 focus:bg-white text-sm"
+                  placeholder="https://example.com/image.jpg" required />
+                <GalleryImagePicker
+                  currentImageUrl={form.imageUrl}
+                  onSelect={(url) => onChange("imageUrl", url)}
+                />
+              </div>
               {form.imageUrl && (
                 <div className="mt-3 relative rounded-lg overflow-hidden border border-slate-200 bg-slate-50 h-32">
                   {/* eslint-disable-next-line @next/next/no-img-element */}

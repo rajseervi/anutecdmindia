@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import GalleryImagePicker from "@/app/admin/_components/GalleryImagePicker";
 
 interface Brand {
   id: string;
@@ -255,6 +256,10 @@ export default function AdminBrandsPage() {
                     onChange={(e) => setForm((f) => ({ ...f, imageUrl: e.target.value }))}
                     placeholder="https://example.com/brand-image.jpg"
                     className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all"
+                  />
+                  <GalleryImagePicker
+                    currentImageUrl={form.imageUrl}
+                    onSelect={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
                   />
                   {!editing && !form.imageUrl && (
                     <button

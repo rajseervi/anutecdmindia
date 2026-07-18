@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Banner } from "@/types/banner";
 import Image from "next/image";
 import BannerCsvExport from "@/app/admin/_components/BannerCsvExport";
+import GalleryImagePicker from "@/app/admin/_components/GalleryImagePicker";
 
 const EMPTY_BANNER: Omit<Banner, "id"> = {
   title: "",
@@ -231,14 +232,20 @@ export default function AdminBannersPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Image URL *</label>
-                  <input
-                    type="url"
-                    value={form.imageUrl}
-                    onChange={(e) => setForm((f) => ({ ...f, imageUrl: e.target.value }))}
-                    placeholder="https://example.com/banner.jpg"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    required
-                  />
+                  <div className="flex gap-2">
+                    <input
+                      type="url"
+                      value={form.imageUrl}
+                      onChange={(e) => setForm((f) => ({ ...f, imageUrl: e.target.value }))}
+                      placeholder="https://example.com/banner.jpg"
+                      className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      required
+                    />
+                    <GalleryImagePicker
+                      currentImageUrl={form.imageUrl}
+                      onSelect={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
+                    />
+                  </div>
                   {form.imageUrl && (
                     <div className="mt-2 relative w-full h-32 rounded-lg overflow-hidden bg-gray-100">
                       <Image src={form.imageUrl} alt="Banner preview" fill className="object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
