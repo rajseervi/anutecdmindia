@@ -32,7 +32,13 @@ export default function BrandGalaxySlider() {
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  /* ── Avoid hydration mismatch for star particles ── */
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   /* ── Spring-animated mouse for smoother parallax ── */
   const springMouseX = useSpring(mouseX, { stiffness: 120, damping: 30 });
@@ -118,62 +124,64 @@ export default function BrandGalaxySlider() {
 
   return (
     <section className="relative w-full overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-indigo-950 py-12 sm:py-16 lg:py-20">
-      {/* ── Deep space starfield ── */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        {/* Multi-colored nebula layers */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-gradient-to-br from-blue-500/6 via-indigo-500/6 to-transparent blur-[150px]" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-purple-500/6 via-rose-500/3 to-transparent blur-[120px]" />
-        <div className="absolute top-1/3 left-0 w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-cyan-500/4 to-transparent blur-[100px]" />
+      {/* ── Deep space starfield (client-only to avoid hydration mismatch) ── */}
+      {mounted && (
+        <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          {/* Multi-colored nebula layers */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-gradient-to-br from-blue-500/6 via-indigo-500/6 to-transparent blur-[150px]" />
+          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-purple-500/6 via-rose-500/3 to-transparent blur-[120px]" />
+          <div className="absolute top-1/3 left-0 w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-cyan-500/4 to-transparent blur-[100px]" />
 
-        {/* Animated star particles - 3 depth layers */}
-        {Array.from({ length: 80 }).map((_, i) => {
-          const layer = i < 30 ? 0 : i < 55 ? 1 : 2;
-          const size = layer === 0 ? 1 + Math.random() * 1.5 : layer === 1 ? 1.5 + Math.random() * 2 : 2 + Math.random() * 2.5;
-          const blur = layer === 2 ? "blur(1px)" : "none";
-          const duration = layer === 0 ? 2 + Math.random() * 3 : layer === 1 ? 3 + Math.random() * 4 : 4 + Math.random() * 5;
-          return (
-            <motion.div
-              key={i}
-              className="absolute rounded-full bg-white"
-              style={{
-                width: size,
-                height: size,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                filter: blur,
-                opacity: layer === 0 ? 0.6 : layer === 1 ? 0.4 : 0.2,
-              }}
-              animate={{
-                opacity: [0.1, 0.6 + layer * 0.3, 0.1],
-                scale: [1, 1.2 + layer * 0.3, 1],
-              }}
-              transition={{
-                duration,
-                repeat: Infinity,
-                delay: Math.random() * 5,
-                ease: "easeInOut",
-              }}
-            />
-          );
-        })}
+          {/* Animated star particles - 3 depth layers */}
+          {Array.from({ length: 80 }).map((_, i) => {
+            const layer = i < 30 ? 0 : i < 55 ? 1 : 2;
+            const size = layer === 0 ? 1 + Math.random() * 1.5 : layer === 1 ? 1.5 + Math.random() * 2 : 2 + Math.random() * 2.5;
+            const blur = layer === 2 ? "blur(1px)" : "none";
+            const duration = layer === 0 ? 2 + Math.random() * 3 : layer === 1 ? 3 + Math.random() * 4 : 4 + Math.random() * 5;
+            return (
+              <motion.div
+                key={i}
+                className="absolute rounded-full bg-white"
+                style={{
+                  width: size,
+                  height: size,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  filter: blur,
+                  opacity: layer === 0 ? 0.6 : layer === 1 ? 0.4 : 0.2,
+                }}
+                animate={{
+                  opacity: [0.1, 0.6 + layer * 0.3, 0.1],
+                  scale: [1, 1.2 + layer * 0.3, 1],
+                }}
+                transition={{
+                  duration,
+                  repeat: Infinity,
+                  delay: Math.random() * 5,
+                  ease: "easeInOut",
+                }}
+              />
+            );
+          })}
 
-        {/* Shooting star */}
-        <motion.div
-          className="absolute h-px bg-gradient-to-r from-transparent via-blue-300/60 to-transparent"
-          style={{ width: 120, top: "15%", left: "-5%", rotate: -25 }}
-          animate={{
-            left: ["-5%", "105%"],
-            top: ["15%", "25%"],
-            opacity: [0, 1, 1, 0],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            delay: 7,
-            ease: "linear",
-          }}
-        />
-      </div>
+          {/* Shooting star */}
+          <motion.div
+            className="absolute h-px bg-gradient-to-r from-transparent via-blue-300/60 to-transparent"
+            style={{ width: 120, top: "15%", left: "-5%", rotate: -25 }}
+            animate={{
+              left: ["-5%", "105%"],
+              top: ["15%", "25%"],
+              opacity: [0, 1, 1, 0],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              delay: 7,
+              ease: "linear",
+            }}
+          />
+        </div>
+      )}
 
       <div
         ref={containerRef}
@@ -260,7 +268,7 @@ export default function BrandGalaxySlider() {
 
                   return (
                     <motion.div
-                      key={`${brand.name}-${index}`}
+                      key={`${brand.name}-${index}-${offset}`}
                       layout
                       initial={{ opacity: 0, scale: 0.5, rotateY: offset * -40, z: -400 }}
                       animate={{

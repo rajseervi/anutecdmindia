@@ -10,6 +10,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+/bkp
 
 # testing
 /coverage
@@ -44,3 +45,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 # next-env.d.ts
+
+# service account keys
+public/service key/
